@@ -3,4 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './components/App.jsx';
 
 const rootElement = document.getElementById('root');
-ReactDOM.render(<App />, rootElement);
+ReactDOM.render(<App
+  headerTitle="Welcome!"
+  contenTitle="Stranger"
+  contentBody="Welcome to Example"
+/>, rootElement);
