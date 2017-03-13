@@ -7,11 +7,16 @@ export default class ContactInfo extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (JSON.stringify(nextProps) !== JSON.stringify(this.props));
+  }
+
   handleClick() {
     this.props.onSelect(this.props.contactKey);
   }
 
   render() {
+    console.log(`rendered: ${this.props.name}`);
     const getStyle = (isSelect) => {
       if (!isSelect) {
         // return {

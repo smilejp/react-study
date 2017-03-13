@@ -10,6 +10,13 @@ export default class ContactEditor extends React.Component {
     this.handleChanged = this.handleChanged.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      name: nextProps.contact.name,
+      phone: nextProps.contact.phone,
+    });
+  }
+
   handleClick() {
     if (!this.props.isSelected) return;
 
@@ -52,4 +59,5 @@ export default class ContactEditor extends React.Component {
 ContactEditor.propTypes = {
   isSelected: React.PropTypes.bool.isRequired,
   onEdit: React.PropTypes.func.isRequired,
+  contact: React.PropTypes.object.isRequired,
 };

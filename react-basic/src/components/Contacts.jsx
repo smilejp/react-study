@@ -2,6 +2,7 @@ import React from 'react';
 import ContactInfo from './ContactInfo.jsx';
 import ContactCreator from './ContactCreator.jsx';
 import ContactRemover from './ContactRemover.jsx';
+import ContactEditor from './ContactEditor.jsx';
 import update from 'react-addons-update';
 
 export default class Contacts extends React.Component {
@@ -16,6 +17,10 @@ export default class Contacts extends React.Component {
         { name: 'David', phone: '000-0000-0004' },
       ],
       selectedKey: -1,
+      selected: {
+        name: '',
+        phone: '',
+      },
     };
 
     this.insertContact = this.insertContact.bind(this);
@@ -27,8 +32,10 @@ export default class Contacts extends React.Component {
   onSelect(key) {
     if (key === this.state.selectedKey) {
       this.setState({ selectedKey: -1 });
+      this.setState({ selected: { name: '', phone: '' } });
     } else {
       this.setState({ selectedKey: key });
+      this.setState({ selected: this.state.contactData[key] });
     }
   }
 
@@ -62,6 +69,20 @@ export default class Contacts extends React.Component {
     });
   }
 
+  editContact(name, phone) {
+    this.setState({
+      contactData: update(
+        this.state.contactData,
+        {
+          [this.state.selectedKey]: {
+            name: { $set: name },
+            phone: { $set: phone },
+          },
+        },
+      ),
+    });
+  }
+
   render() {
     return (
       <div>
@@ -78,6 +99,12 @@ export default class Contacts extends React.Component {
         </ul>
         <ContactCreator onInsert={this.insertContact} />
         <ContactRemover onRemove={this.removeContact} />
+        <ContactEditor
+          onEdit={this.editContact}
+          isSelected={this.state.isSelected !== -1}
+          contact={this.state.selected}
+        />
+
       </div>
     );
   }
